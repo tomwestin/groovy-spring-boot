@@ -1,2 +1,2 @@
-play-spring-boot
+groovy-spring-boot
 ================
