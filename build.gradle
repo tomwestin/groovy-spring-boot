@@ -1,0 +1,43 @@
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.7.RELEASE")
+        classpath("com.sourcemuse.gradle.plugin:gradle-mongo-plugin:0.4.0")
+    }
+}
+
+apply plugin: 'groovy'
+apply plugin: 'spring-boot'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'mongo'
+
+jar {
+    baseName = 'tv-fix-backend'
+    version =  '0.0.1-SNAPSHOT'
+}
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile("org.codehaus.groovy:groovy-all:2.3.7:indy")
+    compile("org.springframework.boot:spring-boot-starter-web:1.1.7.RELEASE")
+    compile("org.grails:gorm-mongodb-spring-boot:1.1.0.RELEASE")
+
+    testCompile("org.spockframework:spock-core':0.7-groovy-2.0")
+
+    runtime("org.springframework.boot:spring-boot-starter-data-mongodb:1.1.7.RELEASE")
+}
+
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.1'
+}
+
+tasks.withType(GroovyCompile) {
+    groovyOptions.optimizationOptions.indy = true
+}
