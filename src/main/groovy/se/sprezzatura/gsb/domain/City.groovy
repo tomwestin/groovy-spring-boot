@@ -1,4 +1,4 @@
-package se.sprezzatura.tvfix.domain
+package se.sprezzatura.gsb.domain
 
 import grails.mongodb.geo.Point;
 import grails.persistence.Entity

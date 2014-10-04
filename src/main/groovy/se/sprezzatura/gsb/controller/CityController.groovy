@@ -1,4 +1,4 @@
-package se.sprezzatura.tvfix.controller
+package se.sprezzatura.gsb.controller
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET
 
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
-import se.sprezzatura.tvfix.domain.City
+import se.sprezzatura.gsb.domain.City
 
 import javax.annotation.PostConstruct
 
