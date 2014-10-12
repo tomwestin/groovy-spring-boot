@@ -1,20 +1,17 @@
 package se.sprezzatura.gsb.controller
 
-import static org.springframework.web.bind.annotation.RequestMethod.GET
-
 import com.mongodb.BasicDBObject
-
 import grails.mongodb.geo.Point
-
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-
 import se.sprezzatura.gsb.domain.City
 
 import javax.annotation.PostConstruct
+
+import static org.springframework.web.bind.annotation.RequestMethod.GET
 
 /**
  * Created by Thomas on 30/09/2014.

@@ -1,8 +1,7 @@
 package se.sprezzatura.gsb.domain
 
-import grails.mongodb.geo.Point;
+import grails.mongodb.geo.Point
 import grails.persistence.Entity
-
 import org.bson.types.ObjectId
 
 /**
