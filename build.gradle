@@ -16,12 +16,22 @@ apply plugin: 'eclipse'
 apply plugin: 'mongo'
 
 jar {
-    baseName = 'tv-fix-backend'
-    version =  '0.0.1-SNAPSHOT'
+    baseName = 'groovy-spring-boot'
+    version = '0.0.1-SNAPSHOT'
 }
 
 repositories {
     jcenter()
+}
+
+
+sourceSets {
+    integTest {
+        groovy.srcDir file('src/integTest/groovy')
+        resources.srcDir file('src/integTest/resources')
+        compileClasspath = sourceSets.main.output + configurations.testRuntime
+        runtimeClasspath = output + compileClasspath
+    }
 }
 
 dependencies {
@@ -29,7 +39,10 @@ dependencies {
     compile("org.springframework.boot:spring-boot-starter-web:1.1.7.RELEASE")
     compile("org.grails:gorm-mongodb-spring-boot:1.1.0.RELEASE")
 
-    testCompile("org.spockframework:spock-core':0.7-groovy-2.0")
+    testCompile("org.springframework:spring-test:4.0.7.RELEASE")
+    testCompile("org.spockframework:spock-spring:0.7-groovy-2.0")
+    integTestCompile("org.codehaus.groovy.modules.http-builder:http-builder:0.7.2")
+    integTestCompile("net.sf.json-lib:json-lib:2.4")
 
     runtime("org.springframework.boot:spring-boot-starter-data-mongodb:1.1.7.RELEASE")
 }
@@ -37,6 +50,17 @@ dependencies {
 task wrapper(type: Wrapper) {
     gradleVersion = '2.1'
 }
+
+task integTest(type: Test) {
+    description = 'Runs the integration tests.'
+    group = 'verification'
+    testClassesDir = sourceSets.integTest.output.classesDir
+    classpath = sourceSets.integTest.runtimeClasspath
+    reports.junitXml.destination = file("${project.testResultsDir}/integTest")
+    reports.html.destination = file("${project.reportsDir}/integTest")
+}
+check.dependsOn integTest
+
 
 tasks.withType(GroovyCompile) {
     groovyOptions.optimizationOptions.indy = true
