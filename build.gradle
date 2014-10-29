@@ -1,10 +1,16 @@
 buildscript {
+    ext {
+        springBootVersion = '1.1.8.RELEASE'
+        groovyVersion = '2.3.7'
+        spockVersion = '0.7-groovy-2.0'
+    }
+
     repositories {
         jcenter()
     }
 
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:1.1.7.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion")
         classpath("com.sourcemuse.gradle.plugin:gradle-mongo-plugin:0.4.0")
     }
 }
@@ -24,7 +30,6 @@ repositories {
     jcenter()
 }
 
-
 sourceSets {
     integTest {
         groovy.srcDir file('src/integTest/groovy')
@@ -36,15 +41,15 @@ sourceSets {
 
 dependencies {
     compile("org.codehaus.groovy:groovy-all:2.3.7:indy")
-    compile("org.springframework.boot:spring-boot-starter-web:1.1.7.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-web:$springBootVersion")
     compile("org.grails:gorm-mongodb-spring-boot:1.1.0.RELEASE")
 
     testCompile("org.springframework:spring-test:4.0.7.RELEASE")
-    testCompile("org.spockframework:spock-spring:0.7-groovy-2.0")
-    integTestCompile("org.codehaus.groovy.modules.http-builder:http-builder:0.7.2")
-    integTestCompile("net.sf.json-lib:json-lib:2.4")
+    testCompile("org.spockframework:spock-spring:$spockVersion")
 
-    runtime("org.springframework.boot:spring-boot-starter-data-mongodb:1.1.7.RELEASE")
+    testRuntime("org.codehaus.groovy.modules.http-builder:http-builder:0.7.2")
+
+    runtime("org.springframework.boot:spring-boot-starter-data-mongodb:$springBootVersion")
 }
 
 task wrapper(type: Wrapper) {
@@ -59,7 +64,8 @@ task integTest(type: Test) {
     reports.junitXml.destination = file("${project.testResultsDir}/integTest")
     reports.html.destination = file("${project.reportsDir}/integTest")
 }
-check.dependsOn integTest
+integTest.dependsOn startManagedMongoDb
+check.dependsOn -= integTest
 
 
 tasks.withType(GroovyCompile) {
