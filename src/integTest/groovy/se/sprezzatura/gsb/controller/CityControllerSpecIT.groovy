@@ -26,28 +26,25 @@ class CityControllerSpecIT extends Specification {
             contentType == 'application/json'
         }
         resp.data.size == 4
-        resp.data[0].name == 'London'
-        resp.data[1].name == 'Paris'
-        resp.data[2].name == 'New York'
-        resp.data[3].name == 'San Francisco'
+        resp.data.collect { it.name } == ['London', 'Paris', 'New York', 'San Francisco']
     }
 
     def "Should return 200 and London"() {
         when:
-        def resp = endpoint.get([ path: '/near/Paris'])
+        def resp = endpoint.get([path: '/near/Paris'])
         then:
         with(resp) {
             status == 200
             contentType == 'application/json'
         }
-       with(resp.data) {
+        with(resp.data) {
             name == 'London'
-       }
+        }
     }
 
     def "Should return 200 and New York"() {
         when:
-        def resp = endpoint.get([ path: '/near/San Francisco'])
+        def resp = endpoint.get([path: '/near/San Francisco'])
         then:
         with(resp) {
             status == 200
@@ -60,7 +57,7 @@ class CityControllerSpecIT extends Specification {
 
     def "Should throw a HttpResponseException with status code 404"() {
         when:
-        def resp = endpoint.get([ path: '/near/Sundsvall'])
+        def resp = endpoint.get([path: '/near/Sundsvall'])
         then:
         HttpResponseException ex = thrown()
         ex.statusCode == 404
